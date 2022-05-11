@@ -64,9 +64,10 @@ public class Fraction implements RingElement {
 				throw new OperationUndefinedException("Cannot add " + addends[i].toString() + " to fraction over " + coefficientRing.getName());
 			Fraction other = (Fraction)addends[i];
 			
-			RingElement numerator = result.numerator.multiply(other.denominator).add(result.denominator.multiply(other.numerator));
-			RingElement denominator = result.denominator.multiply(other.denominator);
-			result = new Fraction(numerator, denominator);
+			RingElement newnumerator = Ring.add(Ring.multiply(result.numerator, other.denominator),
+					Ring.multiply(result.denominator, other.numerator));
+			RingElement newdenominator = Ring.multiply(result.denominator, other.denominator);
+			result = new Fraction(newnumerator, newdenominator);
 		}
 		
 		return result;
@@ -79,8 +80,9 @@ public class Fraction implements RingElement {
 		
 		Fraction subtrahend = (Fraction)other;
 		
-		RingElement newnumerator = numerator.multiply(subtrahend.denominator).subtract(denominator.multiply(subtrahend.numerator));
-		RingElement newdenominator = denominator.multiply(subtrahend.denominator);
+		RingElement newnumerator = Ring.subtract(Ring.multiply(numerator, subtrahend.denominator),
+				Ring.multiply(denominator, subtrahend.numerator));
+		RingElement newdenominator = Ring.multiply(denominator, subtrahend.denominator);
 		return new Fraction(newnumerator, newdenominator);
 	}
 
@@ -93,8 +95,8 @@ public class Fraction implements RingElement {
 				throw new OperationUndefinedException("Cannot add " + factors[i].toString() + " to fraction over " + coefficientRing.getName());
 			Fraction other = (Fraction)factors[i];
 			
-			RingElement newnumerator = result.numerator.multiply(other.numerator);
-			RingElement newdenominator = result.denominator.multiply(other.denominator);
+			RingElement newnumerator = Ring.multiply(result.numerator, other.numerator);
+			RingElement newdenominator = Ring.multiply(result.denominator, other.denominator);
 			result = new Fraction(newnumerator, newdenominator);
 		}
 		
@@ -198,5 +200,14 @@ public class Fraction implements RingElement {
 	@Override
 	public String toString() {
 		return "fraction[" + numerator.toString() + "," + denominator.toString() + "]";
+	}
+
+	@Override
+	public RingElement negative() {
+		try {
+			return new Fraction(numerator.negative(), denominator);
+		} catch(OperationUndefinedException ex) {
+			throw new Error("Each ring element has an additive inverse, unexpected exception", ex);
+		}
 	}
 }

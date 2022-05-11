@@ -76,6 +76,18 @@ public abstract class Ring {
 	}
 	
 	/**
+	 * Subtract a ring element from another.
+	 * Internally, this uses minuend.subtract().
+	 * @param minuend
+	 * @param subtrahend
+	 * @return REsult of the computation as new RingElement
+	 * @throws OperationUndefinedException if the elements are not in the same ring
+	 */
+	public static RingElement subtract (RingElement minuend, RingElement subtrahend) throws OperationUndefinedException {
+		return minuend.subtract(subtrahend);
+	}
+	
+	/**
 	 * Multiply a number of ring elements.
 	 * @param factors: The elements to multiply. Must be at least a single element.
 	 * @return The sum

@@ -65,6 +65,12 @@ public interface RingElement {
 	public RingElement inverse() throws ElementNotInvertibleException;
 	
 	/**
+	 * Compute the negative (the inverse under addition) of the ring element.
+	 * Must not throw OperationUndefinedException, because all ring elements have negative elements.
+	 */
+	public RingElement negative();
+	
+	/**
 	 * Check if another ring element can be added to this element.
 	 * @param other
 	 * @return False if the other element is not a member of the same ring.

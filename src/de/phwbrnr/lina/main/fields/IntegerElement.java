@@ -128,4 +128,9 @@ public class IntegerElement implements RingElement {
 	public boolean isOne() {
 		return value == 1;
 	}
+
+	@Override
+	public RingElement negative() {
+		return new IntegerElement(-1 * value);
+	}
 }

@@ -258,4 +258,12 @@ public class Polynomial implements RingElement {
 		sb.append(coefficients[coefficients.length - 1] + "]");
 		return sb.toString();
 	}
+
+	@Override
+	public RingElement negative() {
+		RingElement[] coefficients = new RingElement[this.coefficients.length];
+		for (int i = 0; i < coefficients.length; i++)
+			coefficients[i] = this.coefficients[i].negative();
+		return new Polynomial(ring, coefficients);
+	}
 }
