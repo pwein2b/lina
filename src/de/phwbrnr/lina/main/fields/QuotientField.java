@@ -52,7 +52,11 @@ public class QuotientField extends Field {
 		for (int i = 0; i < elements.length; i++)
 			coeffs[i] = coefficientRing.parseElement(elements[i]);
 		
-		return new Polynomial(coefficientRing, coeffs);
+		try {
+			return new Fraction(coeffs[0], coeffs[1]);
+		} catch (OperationUndefinedException e) {
+			throw new ElementParseException("Fraction string can be parsed, but not deserialized.", e);
+		}
 	}
 
 	@Override

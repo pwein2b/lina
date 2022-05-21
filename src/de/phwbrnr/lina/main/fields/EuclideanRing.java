@@ -39,6 +39,9 @@ public interface EuclideanRing extends Ring {
 			return b;
 		if (b.isZero())
 			return a;
+		
+		a = a.interpret(this);
+		b = b.interpret(this);
 
 		RingElement dividend = null, divisor = null;
 		if (degree(a) > degree(b)) {

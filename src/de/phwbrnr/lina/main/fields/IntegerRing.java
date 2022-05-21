@@ -53,7 +53,7 @@ public class IntegerRing implements Ring, EuclideanRing {
 		if (el.isZero())
 			throw new OperationUndefinedException("The zero element has undefined degree");
 
-		return ((IntegerElement)el).getValue();
+		return Math.abs(((IntegerElement)el).getValue());
 	}
 
 	public RingElement[] remainder_division (RingElement dividend, RingElement divisor) throws OperationUndefinedException {
