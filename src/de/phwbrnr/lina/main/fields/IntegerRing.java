@@ -3,11 +3,10 @@
  * 
  * @see IntegerElement
  * @author Philipp Weinbrenner
- * @version 2022-10-05
  */
 package de.phwbrnr.lina.main.fields;
 
-public class IntegerRing extends Ring implements EuclideanRing {
+public class IntegerRing implements Ring, EuclideanRing {
 	static IntegerRing instance = null;
 	private IntegerRing () {
 		

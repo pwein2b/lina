@@ -38,6 +38,15 @@ public class Fraction implements RingElement {
 			throw new IllegalArgumentException("Only accepting numerator and denominator from Euclidean Rings, but " + coefficientRing.toString() + " is not Euclidean");
 		
 		try {
+			numerator = numerator.interpret(coefficientRing);
+			denominator = denominator.interpret(coefficientRing);
+		} catch (OperationUndefinedException ex) {
+			throw new OperationUndefinedException("Cannot interpret numerator " + numerator.toString()
+				+ " and denominator " + denominator.toString() + " as elements of "
+				+ coefficientRing.getName(), ex);
+		}
+		
+		try {
 			EuclideanRing ring = (EuclideanRing)coefficientRing;
 			RingElement gcd = ring.gcd(numerator, denominator);
 			this.numerator = numerator.divide(gcd);
@@ -236,5 +245,13 @@ public class Fraction implements RingElement {
 		} catch(OperationUndefinedException ex) {
 			throw new Error("Each ring element has an additive inverse, unexpected exception", ex);
 		}
+	}
+	
+	@Override
+	public RingElement interpret (Ring ring) throws OperationUndefinedException {
+		if (denominator.isOne())
+			return numerator.interpret(ring);
+		else
+			return RingElement.interpret(denominator, ring);
 	}
 }

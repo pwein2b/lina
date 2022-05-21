@@ -11,7 +11,7 @@
 
 package de.phwbrnr.lina.main.fields;
 
-public interface EuclideanRing {
+public interface EuclideanRing extends Ring {
 	/**
 	 * Compute the euclidean degree of a nonzero ring element.
 	 * @throws OperationUndefinedException if the ring element is zero

@@ -13,4 +13,8 @@ public class OperationUndefinedException extends Exception {
 	public OperationUndefinedException (String message) {
 		super(message);
 	}
+
+	public OperationUndefinedException(String string, OperationUndefinedException ex) {
+		super(string, ex);
+	}
 }

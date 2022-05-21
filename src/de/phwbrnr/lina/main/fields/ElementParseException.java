@@ -9,4 +9,8 @@ public class ElementParseException extends Exception {
 	public ElementParseException(String comment) {
 		super(comment);
 	}
+
+	public ElementParseException(String string, OperationUndefinedException e) {
+		super(string, e);
+	}
 }

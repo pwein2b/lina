@@ -11,7 +11,7 @@ package de.phwbrnr.lina.main.fields;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PolynomialRing extends Ring {
+public class PolynomialRing implements Ring {
 	private Ring ring;
 	
 	public PolynomialRing(Ring ring) {

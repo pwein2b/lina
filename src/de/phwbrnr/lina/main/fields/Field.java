@@ -6,7 +6,7 @@
  */
 package de.phwbrnr.lina.main.fields;
 
-public abstract class Field extends Ring {
+public abstract class Field implements Ring {
 
 	@Override
 	public final boolean isCommutative() {

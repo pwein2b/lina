@@ -102,4 +102,37 @@ public interface RingElement {
 	public String toString();
 	
 	public boolean equals(Object other);
+	
+	/**
+	 * Interpret this Ring element as an element of another ring.
+	 * For example, a fraction 2/1 is considered as a rational, but not as an integer, but this method
+	 * allows implementing classes to bring awareness of such inclusions into the system.
+	 * 
+	 * The default implementation only admits re-interpretations of the 0 and 1 elements of a ring.
+	 * 
+	 * If a implementing class wants to "chain up" to the default implementation, it may use the static
+	 * method interpret(RingElement, Ring).
+	 * 
+	 * @param ring The ring the element should be interpreted in
+	 * @throws OperationUndefinedException if the interpretation is not possible or not implemented.
+	 */
+	public default RingElement interpret(Ring ring) throws OperationUndefinedException {
+		return RingElement.interpret(this, ring);
+	}
+	
+	/**
+	 * Interpret a ring element as element of another ring.
+	 * Like the other non-static implementation
+	 */
+	public static RingElement interpret(RingElement element, Ring ring) throws OperationUndefinedException {
+		if(element.getRing().equals(ring))
+			return element;
+		
+		if(element.isZero())
+			return ring.getZero();
+		else if (element.isOne())
+			return ring.getOne();
+		else
+			throw new OperationUndefinedException("Cannot interpret element '" + element.toString() + "' of ring " + element.getRing() + " as element of ring " + ring.toString() + " by default");
+	}
 }

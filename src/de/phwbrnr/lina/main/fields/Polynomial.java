@@ -273,4 +273,12 @@ public class Polynomial implements RingElement {
 			coefficients[i] = this.coefficients[i].negative();
 		return new Polynomial(ring, coefficients);
 	}
+	
+	@Override
+	public RingElement interpret(Ring r) throws OperationUndefinedException {
+		if (coefficients.length == 1)
+			return coefficients[0].interpret(r);
+		else
+			return RingElement.interpret(this, r);
+	}
 }

@@ -2,12 +2,11 @@
  * Represent a Ring.
  * 
  * @author Philipp Weinbrenner
- * @version 2022-05-10
  * @see EuclideanRing - a ring structure over which we have a generalized division with remainder.
  */
 package de.phwbrnr.lina.main.fields;
 
-public abstract class Ring {
+public interface Ring {
 	/**
 	 * String representation of the ring, such as "R" for the real numbers.
 	 */
