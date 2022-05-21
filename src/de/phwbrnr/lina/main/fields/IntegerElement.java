@@ -19,7 +19,7 @@ public class IntegerElement implements RingElement {
 
 	@Override
 	public RingElement add(RingElement... addends) throws OperationUndefinedException {
-		int result = 0;
+		int result = value;
 		for(int i = 0; i < addends.length; i++) {
 			if (!(addends[i] instanceof IntegerElement))
 				throw new OperationUndefinedException("Element " + addends[i].toString() + " is not an integer");
@@ -43,7 +43,7 @@ public class IntegerElement implements RingElement {
 
 	@Override
 	public RingElement multiply(RingElement... factors) throws OperationUndefinedException {
-		int result = 0;
+		int result = value;
 		for(int i = 0; i < factors.length; i++) {
 			if (!(factors[i] instanceof IntegerElement))
 				throw new OperationUndefinedException("Element " + factors[i].toString() + " is not an integer");
@@ -58,6 +58,8 @@ public class IntegerElement implements RingElement {
 	@Override
 	public boolean divisibleBy(RingElement divisor) {
 		if (!(divisor instanceof IntegerElement))
+			return false;
+		if(((IntegerElement)divisor).value == 0)
 			return false;
 		
 		int other_value = ((IntegerElement)divisor).getValue();

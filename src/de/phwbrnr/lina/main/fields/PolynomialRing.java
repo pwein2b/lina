@@ -1,5 +1,7 @@
 /**
  * Represent the polynomial ring over a ring.
+ * For polynomial rings over a field, it is better to use FieldPolynomialRing, because not all Polynomial Rings are
+ * euclidean rings, but those over fields are.
  * 
  * @author Philipp Weinbrenner
  * @version 2022-05-10
@@ -61,9 +63,8 @@ public class PolynomialRing extends Ring {
 		if (!(other instanceof PolynomialRing))
 			return false;
 		
-		return ((PolynomialRing)other).getCoefficientRing().equals(ring);
-		
-		/* TODO equals has to be symmetric */
+		Ring cr = ((PolynomialRing)other).getCoefficientRing();
+		return cr.equals(ring);
 	}
 	
 	/**

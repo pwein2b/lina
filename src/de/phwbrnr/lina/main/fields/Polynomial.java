@@ -238,6 +238,13 @@ public class Polynomial implements RingElement {
 			return ring.getZero();
 		return coefficients[index];
 	}
+	
+	/**
+	 * @return the leading term coefficient of the polynomial.
+	 */
+	public RingElement getLeadingCoefficient() {
+		return coefficients[getDegree() - 1];
+	}
 
 	@Override
 	public boolean isZero() {

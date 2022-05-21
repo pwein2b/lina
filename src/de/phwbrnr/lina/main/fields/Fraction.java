@@ -1,5 +1,7 @@
 /**
- * Represent a formal fraction over an integral domain.
+ * Represent a formal fraction over an euclidean ring.
+ * Formal fractions can be defined over arbitrary integral domains, but for hashCode() we need a normal form
+ * (shortening of fractions), for which we wish to use only euclidean rings. 
  * 
  * @author Philipp Weinbrenner
  * @version 2022-10-05
@@ -62,12 +64,17 @@ public class Fraction implements RingElement {
 		for (int i = 0; i < addends.length; i++) {
 			if (!canAdd(addends[i]))
 				throw new OperationUndefinedException("Cannot add " + addends[i].toString() + " to fraction over " + coefficientRing.getName());
-			Fraction other = (Fraction)addends[i];
 			
-			RingElement newnumerator = Ring.add(Ring.multiply(result.numerator, other.denominator),
-					Ring.multiply(result.denominator, other.numerator));
-			RingElement newdenominator = Ring.multiply(result.denominator, other.denominator);
-			result = new Fraction(newnumerator, newdenominator);
+			if (addends[i] instanceof Fraction) {
+				Fraction other = (Fraction)addends[i];
+			
+				RingElement newnumerator = Ring.add(Ring.multiply(result.numerator, other.denominator),
+						Ring.multiply(result.denominator, other.numerator));
+				RingElement newdenominator = Ring.multiply(result.denominator, other.denominator);
+				result = new Fraction(newnumerator, newdenominator);
+			} else {
+				result = new Fraction(Ring.add(result.numerator, Ring.multiply(addends[i], result.denominator)), result.denominator);
+			}
 		}
 		
 		return result;
@@ -93,11 +100,16 @@ public class Fraction implements RingElement {
 		for (int i = 0; i < factors.length; i++) {
 			if (!canAdd(factors[i]))
 				throw new OperationUndefinedException("Cannot add " + factors[i].toString() + " to fraction over " + coefficientRing.getName());
-			Fraction other = (Fraction)factors[i];
 			
-			RingElement newnumerator = Ring.multiply(result.numerator, other.numerator);
-			RingElement newdenominator = Ring.multiply(result.denominator, other.denominator);
-			result = new Fraction(newnumerator, newdenominator);
+			if (factors[i] instanceof Fraction) {
+				Fraction other = (Fraction)factors[i];
+			
+				RingElement newnumerator = Ring.multiply(result.numerator, other.numerator);
+				RingElement newdenominator = Ring.multiply(result.denominator, other.denominator);
+				result = new Fraction(newnumerator, newdenominator);
+			} else {
+				result = new Fraction(Ring.multiply(factors[i], result.numerator), result.denominator);
+			}
 		}
 		
 		return result;
@@ -151,7 +163,10 @@ public class Fraction implements RingElement {
 
 	@Override
 	public Ring getRing() {
-		return new QuotientField(coefficientRing);
+		if(denominator.isOne())
+			return coefficientRing;
+		else
+			return new QuotientField(coefficientRing);
 	}
 
 	@Override
@@ -174,8 +189,20 @@ public class Fraction implements RingElement {
 
 	@Override
 	public boolean equals(Object other) {
-		if(!(other instanceof Fraction))
+		if(!(other instanceof RingElement))
 			return false;
+		
+		RingElement ro = (RingElement)other;
+		if(!(other instanceof Fraction)) {
+			if (!coefficientRing.contains(ro))
+				return false;
+			
+			try {
+				return Ring.multiply(ro, denominator).equals(numerator);
+			} catch (OperationUndefinedException ex) {
+				return false;
+			}
+		}
 		
 		Fraction fo = (Fraction)other;
 		
