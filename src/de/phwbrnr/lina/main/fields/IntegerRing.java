@@ -7,7 +7,7 @@
  */
 package de.phwbrnr.lina.main.fields;
 
-public class IntegerRing extends EuclideanRing {
+public class IntegerRing extends Ring implements EuclideanRing {
 	static IntegerRing instance = null;
 	private IntegerRing () {
 		
@@ -57,7 +57,7 @@ public class IntegerRing extends EuclideanRing {
 		return ((IntegerElement)el).getValue();
 	}
 
-	public RingElement[2] remainder_division (RingElement dividend, RingElement divisor) throws OperationUndefinedException {
+	public RingElement[] remainder_division (RingElement dividend, RingElement divisor) throws OperationUndefinedException {
 		if (!(contains(dividend) && contains(divisor)))
 			throw new OperationUndefinedException("Dividend " + dividend.toString() + " and divisor " + divisor.toString() + " have to be elements of the integers");
 
@@ -67,6 +67,16 @@ public class IntegerRing extends EuclideanRing {
 		int remainder = divid % divis;
 		int quotient = (divid - remainder) / divis;
 
-		return new RingElement[2] { new IntegerElement(quotient), new IntegerElement(remainder) };
+		return new RingElement[] { new IntegerElement(quotient), new IntegerElement(remainder) };
+	}
+
+	@Override
+	public boolean isCommutative() {
+		return true;
+	}
+
+	@Override
+	public boolean isIntegralDomain() {
+		return true;
 	}
 }

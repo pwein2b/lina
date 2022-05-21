@@ -9,23 +9,15 @@
  * @version 2022-05-12
  */
 
-public abstract class EuclideanRing extends Ring {
-	@Override
-	public final boolean isCommutative() {
-		return true;
-	}
+package de.phwbrnr.lina.main.fields;
 
-	@Override
-	public abstract boolean isIntegralDomain () {
-		return true;
-	}
-
+public interface EuclideanRing {
 	/**
 	 * Compute the euclidean degree of a nonzero ring element.
 	 * @throws OperationUndefinedException if the ring element is zero
 	 * @throws IllegalArgumentException if the argument is not an element of the ring
 	 */
-	public abstract int degree(RingElement element) throws OperationUndefinedException;
+	public int degree(RingElement element) throws OperationUndefinedException;
 
 	/**
 	 * Compute ring elements p, q such that dividend = p * divisor + q, and degree(q) is smaller than the degree of divisor.
@@ -34,7 +26,7 @@ public abstract class EuclideanRing extends Ring {
 	 * @return The pair (p,q), where p is the quotient and q the remainder of the division.
 	 * @throws OperationUndefinedException If one of the arguments is not an element of the ring, or if divisor vanishes.
 	 */
-	public abstract RingElement[2] remainder_division (RingElement dividend, RingElement divisor) throws OperationUndefinedException;
+	public RingElement[] remainder_division (RingElement dividend, RingElement divisor) throws OperationUndefinedException;
 
 	/**
 	 * Compute the greatest common divisor of the arguments by the euclidean algorithm.
@@ -42,7 +34,7 @@ public abstract class EuclideanRing extends Ring {
 	 * A subclass should override this method if it can provide a solution that is more efficient than the standard implementation.
 	 * @throws OperationUndefinedException If one of the operations employed in the algorithm fails.
 	 */
-	public RingElement gcd (RingElement a, RingElement b) throws OperationUndefinedException {
+	public default RingElement gcd (RingElement a, RingElement b) throws OperationUndefinedException {
 		if (a.isZero())
 			return b;
 		if (b.isZero())
@@ -57,7 +49,7 @@ public abstract class EuclideanRing extends Ring {
 			divisor = a;
 		}
 
-		RingElement[2] division_result = remainder_division(dividend, divisor);
+		RingElement[] division_result = remainder_division(dividend, divisor);
 		return gcd(division_result[1], divisor);
 	}
 
@@ -70,7 +62,7 @@ public abstract class EuclideanRing extends Ring {
 	 *
 	 * @throws OperationUndefinedException if one of the methods used fails.
 	 */
-	public RingElement lcm (RingElement a, RingElement b) throws OperationUndefinedException {
+	public default RingElement lcm (RingElement a, RingElement b) throws OperationUndefinedException {
 		RingElement gcd = this.gcd(a, b);
 		RingElement quotient = remainder_division(a, gcd)[1];
 		return Ring.multiply(quotient, b);

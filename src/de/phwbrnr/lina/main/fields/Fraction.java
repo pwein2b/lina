@@ -12,12 +12,12 @@ public class Fraction implements RingElement {
 	private RingElement denominator;
 	
 	/**
-	 * If the numerator is a multiple of the denominator, the fraction will be shortened, but expressions like 4/6
-	 * will not be. TODO
-	 * TODO simplify if numerator and denominator are fractions
+	 * The fraction will be shortened using the Euclidean algorithm.
+	 * TODO enable numerator and denominator to be fractions
 	 * @param numerator
 	 * @param denominator
-	 * @throws IllegalArgumentException if numerator and denominator are not elements of the same ring.
+	 * @throws IllegalArgumentException if numerator and denominator are not elements of the same ring,
+	 * or if the ring is not Euclidean.
 	 * @throws OperationUndefinedException if denominator vanishes.
 	 */
 	public Fraction(RingElement numerator, RingElement denominator) throws OperationUndefinedException {
@@ -32,16 +32,16 @@ public class Fraction implements RingElement {
 		else
 			throw new IllegalArgumentException("Cannot find a ring that contains both numerator " + numerator.toString() + " and denominator " + denominator.toString());
 		
-		if (numerator.divisibleBy(denominator)) {
-			try {
-				this.numerator = numerator.divide(denominator);
-				this.denominator = coefficientRing.getOne();
-			} catch (OperationUndefinedException e) {
-				throw new Error("Programming error: numerator was divisible by denominator, but division fails.", e);
-			}
-		} else {
-			this.numerator = numerator;
-			this.denominator = denominator;
+		if (!(coefficientRing instanceof EuclideanRing))
+			throw new IllegalArgumentException("Only accepting numerator and denominator from Euclidean Rings, but " + coefficientRing.toString() + " is not Euclidean");
+		
+		try {
+			EuclideanRing ring = (EuclideanRing)coefficientRing;
+			RingElement gcd = ring.gcd(numerator, denominator);
+			this.numerator = numerator.divide(gcd);
+			this.denominator = denominator.divide(gcd);
+		} catch (OperationUndefinedException e) {
+			throw new Error("Programming error: Shortening the fraction fails", e);
 		}
 	}
 	
@@ -190,7 +190,7 @@ public class Fraction implements RingElement {
 	}
 	
 	/**
-	 * TODO violates the hashCode contract, since the fraction is not in a normal form by default
+	 * The hashCode contract should be fulfilled, since the constructor shortens the fraction and brings it into normal form.
 	 */
 	@Override
 	public int hashCode () {

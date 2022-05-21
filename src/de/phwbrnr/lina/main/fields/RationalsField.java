@@ -3,13 +3,11 @@
  * 
  * @author Philipp Weinbrenner
  * @version 2022-05-11
- * 
- * TODO implement shortening of fractions
  */
 
 package de.phwbrnr.lina.main.fields;
 
-public class RationalsField extends Field {
+public class RationalsField extends QuotientField {
 	private static RationalsField instance;
 	private IntegerRing integers;
 	public static RationalsField getInstance() {
@@ -19,6 +17,7 @@ public class RationalsField extends Field {
 	}
 	
 	private RationalsField() {
+		super(IntegerRing.getInstance());
 		integers = IntegerRing.getInstance();
 	}
 
@@ -44,23 +43,4 @@ public class RationalsField extends Field {
 			throw new Error("Unexpected exception when constructing 1/1 in Q", e);
 		}
 	}
-
-	@Override
-	public RingElement parseElement(String string) throws ElementParseException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean contains(RingElement el) {
-		// TODO outsource this to QuotientField
-		if(el instanceof IntegerRing)
-			return true;
-		if (!(el instanceof Fraction))
-			return el.getRing().equals(this);
-		
-		Fraction other = (Fraction)el;
-		return integers.contains(other.getNumerator()) && integers.contains(other.getDenominator());
-	}
-
 }
