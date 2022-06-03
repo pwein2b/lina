@@ -7,7 +7,7 @@
 
 package de.phwbrnr.lina.main.fields;
 
-class ElementNotInvertibleException extends Exception {
+public class ElementNotInvertibleException extends Exception {
 	private static final long serialVersionUID = -2797239153040818238L;
 
 	public ElementNotInvertibleException (String description) {

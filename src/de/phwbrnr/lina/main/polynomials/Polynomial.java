@@ -4,8 +4,12 @@
  * @author Philipp Weinbrenner
  * @version 2022-10-05
  */
-package de.phwbrnr.lina.main.fields;
+package de.phwbrnr.lina.main.polynomials;
 
+import de.phwbrnr.lina.main.fields.ElementNotInvertibleException;
+import de.phwbrnr.lina.main.fields.OperationUndefinedException;
+import de.phwbrnr.lina.main.fields.Ring;
+import de.phwbrnr.lina.main.fields.RingElement;
 
 public class Polynomial implements RingElement {
 	private RingElement[] coefficients;

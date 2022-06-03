@@ -6,7 +6,13 @@
  * 
  * @author Philipp Weinbrenner
  */
-package de.phwbrnr.lina.main.fields;
+package de.phwbrnr.lina.main.polynomials;
+
+import de.phwbrnr.lina.main.fields.EuclideanRing;
+import de.phwbrnr.lina.main.fields.Field;
+import de.phwbrnr.lina.main.fields.OperationUndefinedException;
+import de.phwbrnr.lina.main.fields.Ring;
+import de.phwbrnr.lina.main.fields.RingElement;
 
 public class FieldPolynomialRing extends PolynomialRing implements EuclideanRing {
 

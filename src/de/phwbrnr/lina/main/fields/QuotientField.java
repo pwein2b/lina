@@ -12,6 +12,8 @@ package de.phwbrnr.lina.main.fields;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import de.phwbrnr.lina.main.polynomials.PolynomialRing;
+
 public class QuotientField extends Field {
 	private Ring coefficientRing;
 	

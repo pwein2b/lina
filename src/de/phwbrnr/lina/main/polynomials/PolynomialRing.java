@@ -6,10 +6,16 @@
  * @author Philipp Weinbrenner
  * @version 2022-05-10
  */
-package de.phwbrnr.lina.main.fields;
+package de.phwbrnr.lina.main.polynomials;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.phwbrnr.lina.main.fields.ElementParseException;
+import de.phwbrnr.lina.main.fields.NotImplementedException;
+import de.phwbrnr.lina.main.fields.OperationUndefinedException;
+import de.phwbrnr.lina.main.fields.Ring;
+import de.phwbrnr.lina.main.fields.RingElement;
 
 public class PolynomialRing implements Ring {
 	private Ring ring;
