@@ -20,6 +20,7 @@ package de.phwbrnr.lina.main.strategies;
 
 public interface Strategy<ResultType> {
 	public String getDescription();
+	public String getName();
 	
 	/**
 	 * Check if the given strategy can be applied to the given  
@@ -80,6 +81,11 @@ public interface Strategy<ResultType> {
 		
 		public Strategy<RType> getStrategy() {
 			return strategy;
+		}
+
+		@Override
+		public String getName() {
+			return strategy.getName();
 		}
 	}
 }

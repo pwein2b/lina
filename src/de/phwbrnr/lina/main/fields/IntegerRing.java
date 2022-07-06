@@ -163,6 +163,11 @@ public class IntegerRing implements Ring, EuclideanRing {
 					
 					return factors;
 				}
+
+				@Override
+				public String getName() {
+					return "BruteForce";
+				}
 				
 			});
 		}

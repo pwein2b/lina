@@ -63,6 +63,12 @@ public abstract class Field implements Ring {
 				// TODO Auto-generated method stub
 				return "Factor a field element";
 			}
+
+			@Override
+			public String getName() {
+				// TODO Auto-generated method stub
+				return "Trivial";
+			}
 		});
 	}
 }
