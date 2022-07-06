@@ -8,6 +8,7 @@
  */
 package de.phwbrnr.lina.main.polynomials;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +17,8 @@ import de.phwbrnr.lina.main.fields.NotImplementedException;
 import de.phwbrnr.lina.main.fields.OperationUndefinedException;
 import de.phwbrnr.lina.main.fields.Ring;
 import de.phwbrnr.lina.main.fields.RingElement;
+import de.phwbrnr.lina.main.strategies.Computation;
+import de.phwbrnr.lina.main.strategies.Uncomputation;
 
 public class PolynomialRing implements Ring {
 	private Ring ring;
@@ -88,5 +91,15 @@ public class PolynomialRing implements Ring {
 	@Override
 	public boolean isIntegralDomain() {
 		return ring.isIntegralDomain();
+	}
+
+	@Override
+	public boolean irreducible(RingElement el) throws OperationUndefinedException {
+		throw new NotImplementedException("The default PolynomialRing does not know about irreducible elements");
+	}
+
+	@Override
+	public Computation<ArrayList<RingElement>> factor() {
+		return new Uncomputation<ArrayList<RingElement>>("The default PolynomialRing does not know about factorization");
 	}
 }

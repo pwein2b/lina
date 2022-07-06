@@ -6,6 +6,10 @@
  */
 package de.phwbrnr.lina.main.fields;
 
+import java.util.ArrayList;
+
+import de.phwbrnr.lina.main.strategies.Computation;
+
 public interface Ring {
 	/**
 	 * String representation of the ring, such as "R" for the real numbers.
@@ -125,4 +129,23 @@ public interface Ring {
 	 * Checks whether the implementation of Ring considers a given RingElement a member of itself.
 	 */
 	public abstract boolean contains(RingElement el);
+	
+	/**
+	 * Determine if the given Ring Element is irreducible over this ring.
+	 * A ring element x is irreducible if for all decompositions x = a * b over the ring, one of the factors is
+	 * invertible; in particular, 0 and the invertible elements are irreducible.
+	 * 
+	 * @throws OperationUndefinedException if the element cannot be interpreted as element of this ring.
+	 */
+	public abstract boolean irreducible(RingElement el) throws OperationUndefinedException;
+	
+	/**
+	 * Return a Computation object that represents the computation of factoring a given ring element
+	 * into irreducible factors.
+	 * Over a general ring, factorization is not unique and in fact only makes sense over an integral domain.
+	 * An invertible element will not be factored into other factors.
+	 * @returns a FactorComputation object whose strategies return the factorization as an ArrayList of RingElements. 
+	 * @throws OperationUndefinedException if the ring is not an integral domain, or if there is no strategy available
+	 */
+	public abstract Computation<ArrayList<RingElement>> factor() throws OperationUndefinedException;
 }
